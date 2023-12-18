@@ -48,13 +48,10 @@ This brief report describes measurements of data quality metrics that were carri
 % You can also use the \input command to include several content files.
 In this report, we characterize the performance of the Rubin Observatory Science Pipelines Version 26.0.0. We illustrate the performance via metrics that are measured on the HSC-RC2 dataset. RC2 consists of 3 tracts of data taken from the HSC-SSP survey, and selected to provide a means of testing various ``pathological'' cases (e.g., difficult astrometric solutions, extremely good seeing that does not provide a well-sampled PSF, difficult fields for deblending, and large galaxies, among others). These three tracts each contain between 112--149 visits split between the HSC-G, HSC-R, HSC-I, HSC-Z, and HSC-Y (\emph{grizy}) filters.
 
-Between w\_2022\_48 (2022-11-24; the source for pipelines version 25) and w\_2023\_32 (v26 source), we have made the following major changes.
-Major changes: \texttt{gbdes} and switch from using Gaia DR2 to DR3 for astrom fit,
-EDIT. The pipelines now have the capability to generate HIPS trees from high-resolution, healpix-projected coadds with native Rubin code. This task was used to produce the HIPS images that are viewable in the Portal for Data Preview 0.2.
-\texttt{ScarletDeblendTask} now outputs a single storage container that allows users to access both the \texttt{scarlet} models and flux re-distributed models. This change uses an order of magnitude less storage space.
-A new package called \texttt{analysis\_tools} was added; \texttt{analysis\_tools} provides efficient, scalable, consistent and reproducible calculation of metrics and plots for quality assurance analyses. This will be the main resource for data-quality monitoring tools in the future.
-Also added in version 25 of the pipelines is the package \texttt{gbdes}, which will be used for astrometry in future versions of the science pipelines. The \texttt{gbdes} task will be available in version 26.
-Finally, v25 introduces an image subtraction refactor, where the combination of \texttt{subtractImages} and \texttt{detectAndMeasureDiaSources} has been introduced to replace the \texttt{imageDifference} task.
+Between w\_2022\_48 (2022-11-24; the source for pipelines version 25) and w\_2023\_32 (v26 source), most major changes have been in the pipelines ``middleware'' and other pipelines infrastructure, with few changes that would be expected to affect the results of data processing.
+The major change that is expected to affect data products is the adoption of a modified form of \url{https://github.com/lsst/gbdes}{gbdes} for determining astrometric solutions in the pipelines. This was accompanied by a switch from using Gaia DR2 to DR3 as the astrometric reference catalog.
+However, as shown in this document, the adoption of \texttt{gbdes} did not lead to significant changes in the astrometry metrics as measured on RC2.
+As further adaptation and refinement of \texttt{gbdes} continues these metrics are likely to improve.
 
 All metrics reported here were calculated using the \href{https://github.com/lsst/faro}{faro} (\citeds{DMTN-211}) metric calculation package, which is part of the standard pipeline builds. All of the underlying algorithms to calculate metrics within \texttt{faro} are the same as they were in v25.0.0 of the Science Pipelines, so any differences between metrics from the v25 and v26 releases are due to changes in the underlying pipelines.
 
@@ -68,13 +65,15 @@ Some KPMs (e.g., PF1, AF1, AF2) involve thresholds that are different for ``desi
 \begin{figure}[!t]
   \centering
   \includegraphics[width=0.6\textwidth, trim=0.0in 0.0in 0.0in 0.0in, clip]{figures/photom_metrics_v26_with_thresholds.png}
-  \caption{Photometry metrics PA1 (photometric repeatability) and PF1 (percentage of measurements exceeding the outlier threshold) measured in the $r$-band. The figure shows the values of these metrics as measured in versions 22-26 of the LSST Science Pipelines, compared against the SRD requirements (for both the ``design'' and ``minimum'' thresholds). The measured values of both metrics have not changed significantly between the previous release (v25) and the current one (v26), as expected since no major changes were made to the photometric measurement algorithms between v25 and v26.}
+  \caption{Photometry metrics PA1 (photometric repeatability) and PF1 (percentage of measurements exceeding the outlier threshold) measured in the $r$-band. The figure shows the values of these metrics as measured in versions 22-26 of the LSST Science Pipelines, compared against the SRD requirements (for both the ``design'' and ``minimum'' thresholds). The measured values of both metrics have improved slightly between the previous release (v25) and the current one (v26), likely due to SOME CHANGES.}
   \label{fig:phot_metrics}
 \end{figure}
 
 \section{Summary of performance metrics}
 
-The major changes between versions 24 and 25 outlined in the previous section relate to ancillary data products, improvements in efficiency, new tasks that will not be fully in use until version 26, and difference imaging tasks. Thus the data processing algorithms in the Science Pipelines are virtually unchanged between versions 24 and 25, so the data quality metrics should also be similar. Indeed, the astrometry metrics (Section~\ref{astrometric-performance}) are nearly identical (none changed by more than $3\%$) between the previous (v24) and current (v25) Science Pipelines releases. The photometry metrics (Section~\ref{photometric-performance}) and ellipticity correlation metrics (Section~\ref{ellipticity-correlations}) show small differences between Release 24 and 25, most of which represent minor improvements in the metric values.
+As noted in the previous section, most of the major changes between versions 25 and 26 of the pipelines are related to improvements in efficiency and other ``under the hood'' modifications. Other than the astrometric solver, the data processing algorithms in the Science Pipelines are virtually unchanged between versions 25 and 26, so the data quality metrics should also be similar. In spite of the switch to a new astrometric code, the astrometry metrics (Section~\ref{astrometric-performance}) show only minor changes between the previous (v25) and current (v26) Science Pipelines releases.
+The photometry metrics (Section~\ref{photometric-performance})...
+The ellipticity correlation metrics (Section~\ref{ellipticity-correlations}) show only small differences between Release 25 and 26.
 
 
 \section{Photometric Performance}\label{photometric-performance}
