@@ -51,7 +51,7 @@ In this report, we characterize the performance of the Rubin Observatory Science
 Between w\_2022\_48 (2022-11-24; the source for pipelines version 25) and w\_2023\_32 (v26 source), most major changes have been in the pipelines ``middleware'' and other pipelines infrastructure, with few changes that would be expected to affect the results of data processing.
 The major change that is expected to affect data products is the adoption of a modified form of \href{https://github.com/lsst/gbdes}{gbdes} for determining astrometric solutions in the pipelines. This was accompanied by a switch from using Gaia DR2 to DR3 as the astrometric reference catalog.
 However, as shown in this document, the adoption of \texttt{gbdes} did not lead to significant changes in the astrometry metrics as measured on RC2.
-As further adaptation and refinement of \texttt{gbdes} continues these metrics are likely to improve.
+As further adaptation and refinement of \texttt{gbdes} continues we expect to see improvements in these metrics.
 
 All metrics reported here were calculated using the \href{https://github.com/lsst/faro}{faro} (\citeds{DMTN-211}) metric calculation package, which is part of the standard pipeline builds. All of the underlying algorithms to calculate metrics within \texttt{faro} are the same as they were in v25.0.0 of the Science Pipelines, so any differences between metrics from the v25 and v26 releases are due to changes in the underlying pipelines.
 
